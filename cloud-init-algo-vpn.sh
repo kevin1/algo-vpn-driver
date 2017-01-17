@@ -15,7 +15,7 @@ apt install -y htop iftop sl
 cd /root
 git clone https://github.com/trailofbits/algo.git && cd algo
 # People keep breaking algo and I know this commit was stable
-git checkout 1483116
+git checkout 2798f84d3fdbaf8289ebbe9ec384a266d8ad4b1d
 easy_install pip && pip install -r requirements.txt
 
 cat <<END > config.cfg
@@ -97,8 +97,13 @@ congrats: |
   "#          Local DNS resolver and Proxy IP address: {{ local_service_ip }}         #"
   "#                     The p12 password is {{ easyrsa_p12_export_password }}                     #"
   "#                  The CA key password is {{ easyrsa_CA_password }}                 #"
+  "#----------------------------------------------------------------------#"
+
+additional_information: |
+  "#----------------------------------------------------------------------#"
   "#      Shell access: ssh -i {{ ansible_ssh_private_key_file }} {{ ansible_ssh_user }}@{{ ansible_ssh_host }}        #"
   "#----------------------------------------------------------------------#"
+
 
 SSH_keys:
   comment: algo@ssh
