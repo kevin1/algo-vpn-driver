@@ -34,8 +34,10 @@ function valid_ip()
     return $stat
 }
 
+export DEBIAN_FRONTEND=noninteractive
 apt update
-apt upgrade -y
+# https://serverfault.com/a/593640/130328
+apt dist-upgrade -y -o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold" --force-yes
 # install algo dependencies
 apt install -y python-setuptools build-essential libssl-dev libffi-dev python-dev
 # install my packages
