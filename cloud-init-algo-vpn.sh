@@ -64,7 +64,7 @@ EOF
 set -e
 awk "$awk_filter_users" config_old.cfg > config.cfg
 
-# Get our IP address
+# Find our IP address using a cloud data service.
 google="curl --silent http://169.254.169.254/computeMetadata/v1/instance/network-interfaces/0/access-configs/0/external-ip -H \"Metadata-Flavor: Google\""
 digitalocean="curl --silent http://169.254.169.254/metadata/v1/interfaces/public/0/ipv4/address"
 aws="curl --silent http://instance-data/latest/meta-data/public-ipv4"
@@ -94,8 +94,7 @@ options=''
 # Since we're installing on local machine
 options="$options server_ip=localhost server_user=`whoami`"
 
-# Find our IP address using a cloud data service. Required for certificates.
-ip=$(eval "$digitalocean")
+# Required for certificates.
 options="$options IP_subject_alt_name=$ip"
 
 # Causes the vpn role to generate a .mobileconfig for installing the client
