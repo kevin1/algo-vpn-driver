@@ -55,12 +55,12 @@ pip install -r requirements.txt
 # Update the configuration file
 mv config.cfg config_old.cfg
 
-# This awk script replaces any existing users with "Kevin"
+# This awk script replaces any existing users with "defaultuser"
 set +e
 read -d '' awk_filter_users <<"EOF"
 !NF      {f = 0}
 f == 2   {$0 = ""}
-f == 1   {$0 = "  - kevin"; f = 2}
+f == 1   {$0 = "  - defaultuser"; f = 2}
 /users:/ {f = 1}
 1
 EOF
