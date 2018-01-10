@@ -2,8 +2,9 @@
 
 set -e
 
+# Specify users for which accounts are created, one per line
 USERS=(
-    defaultuser
+defaultuser
 )
 
 # not available during cloud-init
@@ -60,15 +61,14 @@ pip install -r requirements.txt
 mv config.cfg config_old.cfg
 
 for user in "${USERS[@]}"; do
-    AWK_USERS="$AWK_USERS  - $user\\\n"
+    awk_users="$awk_users  - $user\\\n"
 done
 
-# This awk script replaces any existing users with "defaultuser"
 set +e
 read -d '' awk_filter_users <<EOF
 !NF      {f = 0}
 f == 2   {next}
-f == 1   {\$0 = "$AWK_USERS"; f = 2}
+f == 1   {\$0 = "$awk_users"; f = 2}
 /users:/ {f = 1}
 1
 EOF
