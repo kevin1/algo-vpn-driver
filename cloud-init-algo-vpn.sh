@@ -60,6 +60,7 @@ pip install -r requirements.txt
 # Update the configuration file
 mv config.cfg config_old.cfg
 
+# The awk script below replaces any existing users with USERS, specified at top
 for user in "${USERS[@]}"; do
     awk_users="$awk_users  - $user\\\n"
 done
