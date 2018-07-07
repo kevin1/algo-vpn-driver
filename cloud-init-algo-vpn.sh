@@ -47,7 +47,10 @@ git clone https://github.com/trailofbits/algo.git "$ALGO_PATH"
 cd "$ALGO_PATH"
 
 # Don't make users enter their p12 password when using mobileconfig
-git revert --no-commit ee7264f26e07c090ce2264621ba8c8e68aea49ec
+# We only revert the iOS part of this commit, since reverting the Windows part
+# causes merge conflicts. Thank you Stack Overflow for this nice little scam.
+# https://stackoverflow.com/a/23401018/1489823
+git show ee7264f26e07c090ce2264621ba8c8e68aea49ec -- roles/vpn/templates/mobileconfig.j2 | git apply --reverse
 
 easy_install pip
 pip install -r requirements.txt
