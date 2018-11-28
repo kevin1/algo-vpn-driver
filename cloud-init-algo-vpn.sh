@@ -2,6 +2,11 @@
 
 set -e
 
+# Specify users for which accounts are created, one per line
+USERS=(
+defaultuser
+)
+
 # not available during cloud-init
 export HOME="/root"
 ALGO_PATH="$HOME/algo"
@@ -58,12 +63,16 @@ pip install -r requirements.txt
 # Update the configuration file
 mv config.cfg config_old.cfg
 
-# This awk script replaces any existing users with "defaultuser"
+# The awk script below replaces any existing users with USERS, specified at top
+for user in "${USERS[@]}"; do
+    awk_users="$awk_users  - $user\\\n"
+done
+
 set +e
-read -d '' awk_filter_users <<"EOF"
+read -d '' awk_filter_users <<EOF
 !NF      {f = 0}
-f == 2   {$0 = ""}
-f == 1   {$0 = "  - defaultuser"; f = 2}
+f == 2   {next}
+f == 1   {\$0 = "$awk_users"; f = 2}
 /users:/ {f = 1}
 1
 EOF
